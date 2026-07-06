@@ -1,0 +1,35 @@
+{
+  "name": "clock-ts",
+  "version": "0.2.1",
+  "description": "A modern, terminal-based digital clock",
+  "type": "module",
+  "bin": {
+    "clock-ts": "dist/index.js"
+  },
+  "scripts": {
+    "build": "bun build src/index.tsx --outdir dist --target bun",
+    "start": "bun run src/index.tsx",
+    "dev": "bun --watch run src/index.tsx"
+  },
+  "keywords": ["clock", "terminal", "time", "cli", "date"],
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Oughie/clock-ts"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "figlet": "^1.11.0",
+    "ink": "^7.1.0",
+    "react": "^19.2.7",
+    "react-devtools-core": "^7.0.1"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "@types/figlet": "^1.7.0",
+    "@types/node": "^26.1.0",
+    "@types/react": "^19.0.0",
+    "bun-types": "^1.3.14",
+    "typescript": "^5.7.0"
+  }
+}

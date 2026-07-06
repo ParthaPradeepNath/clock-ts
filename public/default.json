@@ -1,0 +1,18 @@
+{
+  "general": {
+    "color": "white",
+    "interval": 200,
+    "blink": false,
+    "bold": false
+  },
+  "position": {
+    "horizontal": "center",
+    "vertical": "center"
+  },
+  "date": {
+    "fmt": "%d-%m-%Y",
+    "use12h": false,
+    "utc": false,
+    "hideSeconds": false
+  }
+}
