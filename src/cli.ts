@@ -29,6 +29,7 @@ export function parseCli(): { opts: CliOptions; args: string[] } {
     .name("clock-ts")
     .description("A modern, terminal-based digital clock")
     .version("v0.2.1, (c) 2024 Oughie")
+    .arguments("[command]")
     .allowExcessArguments(false)
     .helpOption("-h, --help")
     .addHelpCommand(false)
@@ -118,9 +119,5 @@ export function applyCliOverrides(
 
 export function extractMode(args: string[]): string | undefined {
   if (args.length === 0) return undefined;
-  const first = args[0].toLowerCase();
-  if (["clock", "timer", "stopwatch"].includes(first)) {
-    return first;
-  }
-  return undefined;
+  return args[0].toLowerCase();
 }

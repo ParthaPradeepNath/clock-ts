@@ -44,7 +44,7 @@ function defaultConfig(): Config {
     },
     date: {
       fmt: "%d-%m-%Y",
-      use12h: false,
+      use12h: true,
       utc: false,
       hideSeconds: false,
     },
