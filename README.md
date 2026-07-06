@@ -34,67 +34,116 @@ bun install
 bun run src/index.tsx
 ```
 
-## Usage
+## Dev commands
 
+| Command | Description |
+|---|---|
+| `bun run dev` | Run with file watching |
+| `bun run src/index.tsx` | Run once |
+| `bun run dist/index.js` | Run compiled bundle |
+| `bun run src/index.tsx --help` | Show help |
+| `bun run src/index.tsx --version` | Show version |
+
+## Modes
+
+| Command | Mode |
+|---|---|
+| `bun run src/index.tsx clock` | Clock (default) |
+| `bun run src/index.tsx stopwatch` | Stopwatch |
+| `bun run src/index.tsx timer` | Timer (5 min default) |
+
+## CLI options
+
+### Display
+
+| Flag | Example | Effect |
+|---|---|---|
+| `-c, --color <color>` | `--color green` | Clock color (named or `#rrggbb`) |
+| `-i, --interval <ms>` | `-i 100` | Polling interval in milliseconds (default `200`) |
+| `-B, --blink` | `-B` | Blinking colon |
+| `-b, --bold` | `-b` | Bold text |
+
+### Position
+
+| Flag | Values | Example |
+|---|---|---|
+| `-x, --x-pos <pos>` | `start`, `center`, `end` | `-x start` |
+| `-y, --y-pos <pos>` | `start`, `center`, `end` | `-y end` |
+
+### Date/Time
+
+| Flag | Example | Effect |
+|---|---|---|
+| `--fmt <fmt>` | `--fmt "%A, %d %B %Y"` | strftime date format (default `%d-%m-%Y`) |
+| `-t` | `-t` | 12-hour format |
+| `--utc` | `--utc` | Use UTC time |
+| `-s, --hide-seconds` | `-s` | Hide seconds |
+
+### Font
+
+| Flag | Example | Effect |
+|---|---|---|
+| `--font <font>` | `--font big` | Font style (`digital`, `standard`, `big`, `doom`, `slant`, `block`, `banner`, `small`, `lean`, `shadow`, `rectangles`) |
+
+### Timer
+
+| Flag | Example | Effect |
+|---|---|---|
+| `-S, --timer-seconds <s>` | `timer -S 30` | Set timer seconds |
+| `-M, --timer-minutes <m>` | `timer -M 5` | Set timer minutes |
+| `-H, --timer-hours <h>` | `timer -H 1` | Set timer hours |
+| `-k, --timer-kill` | `timer -M 5 -k` | Exit app when timer finishes |
+
+Timer duration defaults to 5 minutes if no time flags are given. Maximum is 99h 59m 59s.
+
+```bash
+bun run src/index.tsx timer -S 30                      # 30 seconds
+bun run src/index.tsx timer -M 5 -S 30                 # 5m 30s
+bun run src/index.tsx timer -H 1 -M 30 -S 15           # 1h 30m 15s
+bun run src/index.tsx timer -M 5 -k                    # 5 min, exit when done
 ```
-clock-ts [options] [command]
 
-Commands:
-  clock       Display the current time (default)
-  timer       Create a timer (5 minutes if no time is specified)
-  stopwatch   Start a stopwatch
+### Color values
 
-Options:
-  -c, --color <color>        Specify the clock color
-  -i, --interval <ms>        Set the polling interval in milliseconds
-  -B, --blink                Set the colon to blink
-  -b, --bold                 Use bold text
-  -x, --x-pos <pos>          Set the position along the horizontal axis
-  -y, --y-pos <pos>          Set the position along the vertical axis
-      --fmt <fmt>            Set the date format
-  -t                         Use the 12h format
-      --utc                  Use UTC time
-  -s, --hide-seconds         Do not show seconds
-      --font <font>          Set the clock font (digital, standard, big,
-                             doom, slant, block, banner, small, lean, shadow,
-                             rectangles)
-  -h, --help                 Print help
-  -V, --version              Print version
+Named colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`, `bright-black`, `bright-red`, `bright-green`, `bright-yellow`, `bright-blue`, `bright-magenta`, `bright-cyan`, `bright-white`.
 
-Timer options:
-  -S, --seconds <s>          Add seconds to the timer
-  -M, --minutes <m>          Add minutes to the timer
-  -H, --hours <h>            Add hours to the timer
-  -k, --kill                 Terminate when the timer finishes
+Hex colors: `#rrggbb` (e.g. `#ff5500`).
+
+### Combinations
+
+```bash
+bun run src/index.tsx --font big -c green -b -B --utc -t -x center -y center
+bun run src/index.tsx --font doom -c "#ff0000" --fmt "%H:%M" -s
+bun run src/index.tsx stopwatch -i 50 -c bright-yellow -b
 ```
 
-### Controls
+## Keyboard shortcuts
 
-| Key              | Action                |
-|------------------|-----------------------|
-| `Esc`, `q`, `Q`  | Quit                  |
-| `Ctrl + C`       | Quit                  |
-| `Ctrl + R`       | Reload configuration  |
-| `P`, `p`         | Toggle pause (timer/stopwatch) |
-| `R`, `r`         | Restart (timer/stopwatch) |
+| Key | Action |
+|---|---|
+| `q`, `Q`, `Esc` | Quit |
+| `Ctrl+C` | Quit |
+| `Ctrl+R` | Reload configuration |
+| `p`, `P` | Pause / resume (timer / stopwatch) |
+| `r`, `R` | Restart (timer / stopwatch) |
 
 ## Configuration
 
 `clock-ts` uses JSON format for its settings. By default, the configuration file is named `conf.json` and stored in the OS configuration directory:
 
 | Platform | Configuration file path |
-|----------|------------------------|
-| macOS    | `~/Library/Application Support/clock-ts/conf.json` |
-| Linux    | `~/.config/clock-ts/conf.json` |
-| Windows  | `C:\Users\%USERNAME%\AppData\Local\clock-ts\conf.json` |
+|---|---|
+| macOS | `~/Library/Application Support/clock-ts/conf.json` |
+| Linux | `~/.config/clock-ts/conf.json` or `$XDG_CONFIG_HOME/clock-ts/conf.json` |
+| Windows | `%APPDATA%\clock-ts\conf.json` |
 
 Override the path by setting the `CONF_PATH` environment variable. Set it to `None` to run without a config file.
 
 ### Fields
 
 | Field | Description | Possible values | Default |
-|-------|-------------|----------------|---------|
-| `general.color` | Clock color | `"black"`, `"red"`, `"green"`, `"yellow"`, `"blue"`, `"magenta"`, `"cyan"`, `"white"`, `"bright-*"`, or `"#rrggbb"` | `"white"` |
+|---|---|---|---|
+| `general.color` | Clock color | Named color or `"#rrggbb"` | `"white"` |
 | `general.interval` | Polling interval in ms | Positive integer | `200` |
 | `general.blink` | Blinking colon | `true` / `false` | `false` |
 | `general.bold` | Bold text | `true` / `false` | `false` |
@@ -111,50 +160,23 @@ Override the path by setting the `CONF_PATH` environment variable. Set it to `No
 ```json
 {
   "general": {
-    "color": "magenta",
-    "interval": 250,
+    "color": "green",
+    "interval": 200,
     "blink": true,
     "bold": true,
-    "font": "standard"
+    "font": "big"
   },
   "position": {
     "horizontal": "center",
     "vertical": "center"
   },
   "date": {
-    "fmt": "%A, %B %d, %Y",
+    "fmt": "%d-%m-%Y",
     "use12h": true,
-    "utc": true,
-    "hideSeconds": true
+    "utc": false,
+    "hideSeconds": false
   }
 }
-```
-
-## Project Structure
-
-```
-clock-ts/
-├── src/
-│   ├── index.tsx          # Entry point
-│   ├── cli.ts             # CLI argument parsing
-│   ├── config.ts          # JSON config handling
-│   ├── error.ts           # Error types
-│   ├── color.ts           # Color utilities
-│   ├── position.ts        # Position calculation
-│   ├── segment.ts         # 7-segment display patterns
-│   ├── character.ts       # Character to segment mapping
-│   └── clock/
-│       ├── App.tsx         # Main Ink app component
-│       ├── ClockDisplay.tsx # Clock rendering component (figlet + 7-segment)
-│       ├── fontRenderer.ts # Figlet font caching and rendering
-│       ├── counter.ts      # Timer/Stopwatch logic
-│       ├── mode.ts         # Clock mode types
-│       └── timeZone.ts     # Time zone handling
-├── public/
-│   └── default.json       # Default configuration
-├── package.json
-├── tsconfig.json
-└── README.md
 ```
 
 ## License
