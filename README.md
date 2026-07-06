@@ -1,6 +1,6 @@
 # clock-ts
 
-A modern, digital clock that runs in your terminal. Ported from [clock-rs](https://github.com/Oughie/clock-rs).
+A modern, digital clock that runs in your terminal. Ported from [clock-ts](https://github.com/ParthaPradeepNath/clock-ts).
 
 Built with [TypeScript](https://www.typescriptlang.org/), [Bun](https://bun.sh/), and [Ink](https://github.com/vadimdemedes/ink) (React-based terminal UI).
 
@@ -28,7 +28,7 @@ bunx clock-ts
 ### Building from source
 
 ```bash
-git clone https://github.com/Oughie/clock-ts
+git clone https://github.com/ParthaPradeepNath/clock-ts
 cd clock-ts
 bun install
 bun run src/index.tsx

@@ -6,16 +6,29 @@
   "bin": {
     "clock-ts": "dist/index.js"
   },
+  "files": [
+    "dist/index.js"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "bun build src/index.tsx --outdir dist --target bun",
+    "build:binary": "bun build src/index.tsx --compile --outfile dist/clock-ts",
+    "build:binary:linux-x64": "bun build src/index.tsx --compile --target=bun-linux-x64-modern --outfile dist/clock-ts-linux-x64",
+    "build:binary:darwin-x64": "bun build src/index.tsx --compile --target=bun-darwin-x64 --outfile dist/clock-ts-darwin-x64",
+    "build:binary:darwin-arm64": "bun build src/index.tsx --compile --target=bun-darwin-arm64 --outfile dist/clock-ts-darwin-arm64",
+    "build:all": "npm run build && npm run build:binary",
     "start": "bun run src/index.tsx",
-    "dev": "bun --watch run src/index.tsx"
+    "dev": "bun --watch run src/index.tsx",
+    "prepublishOnly": "npm run build",
+    "version": "npm run build"
   },
   "keywords": ["clock", "terminal", "time", "cli", "date"],
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Oughie/clock-ts"
+    "url": "https://github.com/ParthaPradeepNath/clock-ts"
   },
   "dependencies": {
     "commander": "^13.1.0",
