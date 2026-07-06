@@ -6,10 +6,10 @@ Built with [TypeScript](https://www.typescriptlang.org/), [Bun](https://bun.sh/)
 
 ## Features
 
-- Digital 7-segment clock display
+- 11 font styles: `digital` (7-segment), `standard`, `big`, `doom`, `slant`, `block`, `banner`, `small`, `lean`, `shadow`, `rectangles`
 - Timer and stopwatch modes
 - JSON configuration file with CLI overrides
-- Configurable colors, position, date format, and more
+- Configurable colors, position, date format, font, and more
 - Keyboard controls (Pause, Restart, Reload config)
 - Cross-platform (macOS, Linux, Windows)
 
@@ -55,6 +55,9 @@ Options:
   -t                         Use the 12h format
       --utc                  Use UTC time
   -s, --hide-seconds         Do not show seconds
+      --font <font>          Set the clock font (digital, standard, big,
+                             doom, slant, block, banner, small, lean, shadow,
+                             rectangles)
   -h, --help                 Print help
   -V, --version              Print version
 
@@ -95,6 +98,7 @@ Override the path by setting the `CONF_PATH` environment variable. Set it to `No
 | `general.interval` | Polling interval in ms | Positive integer | `200` |
 | `general.blink` | Blinking colon | `true` / `false` | `false` |
 | `general.bold` | Bold text | `true` / `false` | `false` |
+| `general.font` | Clock font style | `"digital"`, `"standard"`, `"big"`, `"doom"`, `"slant"`, `"block"`, `"banner"`, `"small"`, `"lean"`, `"shadow"`, `"rectangles"` | `"digital"` |
 | `position.horizontal` | Horizontal position | `"start"`, `"center"`, `"end"` | `"center"` |
 | `position.vertical` | Vertical position | `"start"`, `"center"`, `"end"` | `"center"` |
 | `date.fmt` | Date format string | Any strftime-like format | `"%d-%m-%Y"` |
@@ -110,7 +114,8 @@ Override the path by setting the `CONF_PATH` environment variable. Set it to `No
     "color": "magenta",
     "interval": 250,
     "blink": true,
-    "bold": true
+    "bold": true,
+    "font": "standard"
   },
   "position": {
     "horizontal": "center",
@@ -140,7 +145,8 @@ clock-ts/
 │   ├── character.ts       # Character to segment mapping
 │   └── clock/
 │       ├── App.tsx         # Main Ink app component
-│       ├── ClockDisplay.tsx # Clock rendering component
+│       ├── ClockDisplay.tsx # Clock rendering component (figlet + 7-segment)
+│       ├── fontRenderer.ts # Figlet font caching and rendering
 │       ├── counter.ts      # Timer/Stopwatch logic
 │       ├── mode.ts         # Clock mode types
 │       └── timeZone.ts     # Time zone handling

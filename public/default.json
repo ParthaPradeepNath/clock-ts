@@ -3,7 +3,8 @@
     "color": "white",
     "interval": 200,
     "blink": false,
-    "bold": false
+    "bold": false,
+    "font": "digital"
   },
   "position": {
     "horizontal": "center",

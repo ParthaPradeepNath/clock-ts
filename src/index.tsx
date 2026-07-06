@@ -39,8 +39,11 @@ async function main() {
     process.exit(1);
   }
 
-  const { waitUntilExit } = render(<App initialConfig={config} initialMode={mode} />);
+  const { waitUntilExit } = render(<App initialConfig={config} initialMode={mode} />, {
+    alternateScreen: true,
+  });
   await waitUntilExit();
+  process.exit(0);
 }
 
 function resolveMode(

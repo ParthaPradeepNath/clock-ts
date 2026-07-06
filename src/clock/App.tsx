@@ -6,7 +6,7 @@ import { Config, parseConfig } from "../config";
 import { CounterType } from "./counter";
 import { ClockMode, getClockTime, getClockText } from "./mode";
 import { TimeZoneKind } from "./timeZone";
-import { ClockDisplay, isClockTooLarge, calculatePadding } from "./ClockDisplay";
+import { ClockDisplay, isClockTooLarge, calculatePadding, getClockWidth } from "./ClockDisplay";
 
 interface AppProps {
   initialConfig: Config;
@@ -27,11 +27,10 @@ export function App({ initialConfig, initialMode }: AppProps) {
   const updateDisplay = useCallback(() => {
     const cfg = configRef.current;
     const mode = modeRef.current;
-    const cw = cfg.date.hideSeconds ? 32 : 51;
+    const cw = getClockWidth(cfg.general.font, cfg.date.hideSeconds);
 
     if (mode.type === "counter" && mode.counter.isFinished() && mode.counter.shouldKillOnFinish()) {
       exit();
-      process.exit(0);
       return;
     }
 
@@ -45,6 +44,7 @@ export function App({ initialConfig, initialMode }: AppProps) {
     const pt = calculatePadding(
       columns,
       rows,
+      cfg.general.font,
       cfg.date.hideSeconds,
       (total, offset) => calculatePosition(cfg.position.horizontal, total, offset),
       (total, offset) => calculatePosition(cfg.position.vertical, total, offset),
@@ -64,7 +64,7 @@ export function App({ initialConfig, initialMode }: AppProps) {
   }, [updateDisplay, cfg.general.interval]);
 
   useEffect(() => {
-    const fit = !isClockTooLarge(columns, rows, configRef.current.date.hideSeconds);
+    const fit = !isClockTooLarge(columns, rows, configRef.current.general.font, configRef.current.date.hideSeconds);
     setClockFit(fit);
     if (fit) {
       updateDisplay();
@@ -92,12 +92,7 @@ export function App({ initialConfig, initialMode }: AppProps) {
   }, [updateDisplay]);
 
   useInput((input, key) => {
-    if (
-      key.escape ||
-      input === "q" ||
-      input === "Q" ||
-      (key.ctrl && input === "c")
-    ) {
+    if (key.escape || input === "q" || input === "Q") {
       exit();
       return;
     }
@@ -149,6 +144,7 @@ export function App({ initialConfig, initialMode }: AppProps) {
         bold={cfg.general.bold}
         use12h={cfg.date.use12h}
         hideSeconds={cfg.date.hideSeconds}
+        font={cfg.general.font}
         subtitle={subtitle}
         paddingTop={padding.top}
         paddingLeft={padding.left}

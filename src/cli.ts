@@ -109,9 +109,10 @@ export function applyCliOverrides(
   }
 
   if (opts.font !== undefined) {
-    if (isValidFont(opts.font)) {
-      config.general.font = opts.font;
+    if (!isValidFont(opts.font)) {
+      throw new Error(`unknown font \`${opts.font}\`. Valid fonts: digital, ${FONT_NAMES.join(", ")}`);
     }
+    config.general.font = opts.font;
   }
 }
 

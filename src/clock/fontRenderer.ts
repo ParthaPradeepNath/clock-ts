@@ -23,7 +23,7 @@ function getFigletChar(font: string, char: string): string[] {
 
   let lines = fontCache.get(char);
   if (!lines) {
-    const result = figlet.textSync(char, { font: font as figlet.Fonts });
+    const result = figlet.textSync(char, { font: font as any });
     lines = result.split("\n");
     while (lines.length > 0 && lines[lines.length - 1] === "") {
       lines = lines.slice(0, -1);
