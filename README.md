@@ -1,6 +1,8 @@
 # clock-ts
 
-A modern, digital clock that runs in your terminal. Ported from [clock-ts](https://github.com/ParthaPradeepNath/clock-ts).
+A modern, digital clock that runs in your terminal.
+
+![HeadShot](public/headshot.png)
 
 Built with [TypeScript](https://www.typescriptlang.org/), [Bun](https://bun.sh/), and [Ink](https://github.com/vadimdemedes/ink) (React-based terminal UI).
 
